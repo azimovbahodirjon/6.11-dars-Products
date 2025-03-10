@@ -1,5 +1,5 @@
 import { useGlobalContext } from "../hooks/useGlobalContext";
-import { FaMoon, FaShoppingCart, FaSun } from "react-icons/fa";
+import { FaMoon, FaShoppingCart, FaSun, FaStore } from "react-icons/fa";
 import { useTheme } from "../hooks/useTheme";
 import { Link } from "react-router-dom";
 
@@ -8,33 +8,47 @@ function Navbar() {
   const { changeTheme, currentTheme } = useTheme();
 
   return (
-    <header className="bg-base-200 mb-5">
-      <div className="navbar main-container">
-        <div className="navbar-start">Logo</div>
-        <div className="navbar-center">Navbar</div>
-        <div className="navbar-end">
-          <div>
-            <label className="swap swap-rotate">
-              {/* hidden checkbox controls the state */}
-              <input
-                type="checkbox"
-                onChange={changeTheme}
-                defaultChecked={currentTheme === "dark"}
-              />
+    <header className="bg-base-100 shadow-md sticky top-0 z-50">
+      <div className="navbar main-container flex justify-between items-center py-4">
+        {/* Logo - Markazda bo'lishi uchun flex */}
+        <div className="navbar-start flex-1">
+          <Link
+            to="/"
+            className="text-2xl font-bold flex items-center gap-2 hover:text-blue-600 transition"
+          >
+            <FaStore className="h-7 w-7 text-blue-500" />
+            <span>Shop</span>
+          </Link>
+        </div>
 
-              {/* sun icon */}
-              <FaSun className="swap-on h-7 w-7 fill-current" />
+        {/* Tema o'zgartirish */}
+        <div className="navbar-center">
+          <button
+            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+            onClick={changeTheme}
+          >
+            {currentTheme === "dark" ? (
+              <FaSun className="h-7 w-7 text-yellow-500" />
+            ) : (
+              <FaMoon className="h-7 w-7 text-gray-600" />
+            )}
+          </button>
+        </div>
 
-              {/* moon icon */}
-              <FaMoon className="swap-off h-7 w-7 fill-current" />
-            </label>
-          </div>
-          <div className="flex items-center gap-2">
-            <Link to="/cart">
-              <FaShoppingCart className="h-6 w-6" />
-              <span>Amount: {totalAmount}</span>
-            </Link>
-          </div>
+        {/* Savatcha (Cart) */}
+        <div className="navbar-end flex-1 flex justify-end">
+          <Link
+            to="/cart"
+            className="relative flex items-center gap-2 text-lg font-medium hover:text-green-600 transition"
+          >
+            <FaShoppingCart className="h-7 w-7 text-green-500" />
+            {totalAmount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                {totalAmount}
+              </span>
+            )}
+            <span>Cart</span>
+          </Link>
         </div>
       </div>
     </header>
